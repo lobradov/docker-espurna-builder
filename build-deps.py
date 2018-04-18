@@ -10,7 +10,7 @@ from subprocess import call
 from ConfigParser import ConfigParser
 
 import os
-import shutils
+import shutil
 import re
 import sys
 import tempfile
@@ -52,7 +52,7 @@ def pio_prepare(cwd, libraries, platforms=("espressif8266@1.5.0", "espressif8266
             [run_ok, ["platformio", "run", "-s", "-d", _install_tools_dir ]],
         ])
 
-        shutils.rmtree(_install_lib_dir)
+        shutil.rmtree(_install_lib_dir)
 
 
     for runner, cmd in commands:
