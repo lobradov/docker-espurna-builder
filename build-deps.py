@@ -10,6 +10,7 @@ from subprocess import call
 from ConfigParser import ConfigParser
 
 import os
+import shutils
 import re
 import sys
 import tempfile
@@ -32,23 +33,27 @@ def pio_prepare(cwd, libraries, platforms=("espressif8266@1.5.0", "espressif8266
     run_fail = lambda cmd: not run_ok(cmd)
 
     commands = []
-    for platform in platforms:
-        commands.append([run_ok, ["platformio", "platform", "install", "--with-package", "framework-arduinoespressif8266", platform]])
-
-    _install_tools_dir = tempfile.mkdtemp()
-    _install_lib_dir   = os.environ["PLATFORMIO_LIBDEPS_DIR"]
-    os.mkdir(_install_lib_dir)
-
-    commands.extend([
-        [run_ok, ["platformio", "init", "-d", _install_tools_dir, "-b", "esp01_1m", "-s" ]],
-        [run_ok, ["cp", "/empty.ino", _install_tools_dir + "/src" ]],
-        [run_ok, ["platformio", "run", "-s", "-d", _install_tools_dir ]],
-    ])
 
     # explicitly install required libraries
+    _install_lib_dir   = os.environ["PLATFORMIO_LIBDEPS_DIR"]
+
     commands.extend([
         [run_ok, ["platformio", "lib", "-d", _install_lib_dir, "install"] + libraries]
     ])
+
+
+    for platform in platforms:
+        _install_tools_dir = tempfile.mkdtemp()
+        os.mkdir(_install_lib_dir)
+
+        commands.extend([
+            [run_ok, ["platformio", "init", "-d", _install_tools_dir, "-b", "esp01_1m", "-s", "-O", "platform="+platform ]],
+            [run_ok, ["cp", "/empty.ino", _install_tools_dir + "/src" ]],
+            [run_ok, ["platformio", "run", "-s", "-d", _install_tools_dir ]],
+        ])
+
+        shutils.rmtree(_install_lib_dir)
+
 
     for runner, cmd in commands:
         print ('+-- INFO: Running ' + " ".join(map(str, cmd)))
