@@ -1,8 +1,8 @@
 FROM        python:2.7-slim
 MAINTAINER  Lazar Obradovic <laz.obradovic@gmail.com>
 
-ENV \
-    PLATFORMIO_LIBDEPS_DIR="/usr/lib/platformio"
+ENV         PLATFORMIO_LIBDEPS_DIR="/usr/lib/platformio"
+ENV         PLATFORMIO_HOME_DIR="/usr/share/platformio"
 
 RUN \
     apt-get update &&\
