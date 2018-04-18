@@ -36,6 +36,7 @@ def pio_prepare(cwd, libraries, platforms=("espressif8266@1.5.0", "espressif8266
 
     # explicitly install required libraries
     _install_lib_dir   = os.environ["PLATFORMIO_LIBDEPS_DIR"]
+    os.mkdir(_install_lib_dir)
 
     commands.extend([
         [run_ok, ["platformio", "lib", "-d", _install_lib_dir, "install"] + libraries]
@@ -44,7 +45,6 @@ def pio_prepare(cwd, libraries, platforms=("espressif8266@1.5.0", "espressif8266
 
     for platform in platforms:
         _install_tools_dir = tempfile.mkdtemp()
-        os.mkdir(_install_lib_dir)
 
         commands.extend([
             [run_ok, ["platformio", "init", "-d", _install_tools_dir, "-b", "esp01_1m", "-s", "-O", "platform="+platform ]],
@@ -52,7 +52,7 @@ def pio_prepare(cwd, libraries, platforms=("espressif8266@1.5.0", "espressif8266
             [run_ok, ["platformio", "run", "-s", "-d", _install_tools_dir ]],
         ])
 
-        shutil.rmtree(_install_lib_dir)
+        shutil.rmtree(_install_tools_dir)
 
 
     for runner, cmd in commands:
