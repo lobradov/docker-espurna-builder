@@ -45,14 +45,11 @@ def pio_prepare(cwd, libraries, platforms=("espressif8266@1.5.0", "espressif8266
 
     for platform in platforms:
         _install_tools_dir = tempfile.mkdtemp()
-
         commands.extend([
             [run_ok, ["platformio", "init", "-d", _install_tools_dir, "-b", "esp01_1m", "-s", "-O", "platform="+platform ]],
             [run_ok, ["cp", "/empty.ino", _install_tools_dir + "/src" ]],
             [run_ok, ["platformio", "run", "-s", "-d", _install_tools_dir ]],
         ])
-
-        shutil.rmtree(_install_tools_dir)
 
 
     for runner, cmd in commands:
