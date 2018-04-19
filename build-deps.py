@@ -51,10 +51,14 @@ def pio_prepare(cwd, libraries, platforms=("espressif8266@1.5.0", "espressif8266
             [run_ok, ["platformio", "run", "-s", "-d", _install_tools_dir ]],
         ])
 
+    commands.extend([
+        [run_ok, ["npm", "install", "-g", "gulpfile.js" , "--only=dev"]]
+    ])
 
     for runner, cmd in commands:
         print ('+-- INFO: Running ' + " ".join(map(str, cmd)))
         sys.stdout.flush()
+        os.chdir("/usr/src")
         if not runner(cmd):
             return False
 

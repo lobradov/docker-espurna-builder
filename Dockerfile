@@ -19,6 +19,9 @@ RUN \
 ADD \
   https://raw.githubusercontent.com/xoseperez/espurna/dev/code/platformio.ini \
   https://raw.githubusercontent.com/xoseperez/espurna/dev/code/requirements.txt \
+  https://raw.githubusercontent.com/xoseperez/espurna/dev/code/gulpfile.js \
+  https://raw.githubusercontent.com/xoseperez/espurna/dev/code/package.json \
+  https://raw.githubusercontent.com/xoseperez/espurna/dev/code/package-lock.json \
   /usr/src/
 
 ADD \
