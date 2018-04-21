@@ -48,6 +48,7 @@ RUN \
 
 RUN \
     pip install -U platformio &&\
+    pio upgrade --dev &&\
     /build-deps.py
 
 VOLUME ["/usr/src/espurna"]
